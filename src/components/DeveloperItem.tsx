@@ -6,16 +6,14 @@ interface DeveloperItemProps {
 }
 
 const DeveloperItem: FC<DeveloperItemProps> = ({item}) => {
-    const deliteItem = () => {
-        console.log(item)
-    }
+
     return (
         <tr>
             <th scope="row"> {item.id} </th>
             <td>{item.name}</td>
             <td>{item.skill}</td>
             <td>{item.department}</td>
-            <td><button className="btn btn-danger" onClick={deliteItem}>Удалить</button></td>
+            <td><button className="btn btn-danger">Удалить</button></td>
         </tr>
     );
 };

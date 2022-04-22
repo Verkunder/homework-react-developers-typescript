@@ -10,9 +10,13 @@ const App = () => {
         {id: 4, name: "Мария Лапиева", skill: 'Middle', department: 'Frontend'},
         {id: 5, name: "Павел Воробьев", skill: 'Senior', department: 'Frontend'},
         {id: 6, name: "Александр Забанов", skill: 'Senior', department: 'Backend'}]
+
+    const deliteItem = (id: number) => {
+        console.log(id)
+    }
     return (
         <div className="container">
-            <DeveloperTable developers={developers} />
+            <DeveloperTable developers={developers} deliItem={deliteItem}/>
         </div>
     );
 };

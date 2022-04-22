@@ -4,9 +4,10 @@ import DeveloperItem from "./DeveloperItem";
 
 interface DeveloperTableProps {
     developers: IDevelopers[]
+    deliItem: (id: number) => void
 }
 
-const DeveloperTable: FC<DeveloperTableProps> = ({developers}) => {
+const DeveloperTable: FC<DeveloperTableProps> = ({developers, deliItem}) => {
 
     return (
         <div className="align-items-center">
