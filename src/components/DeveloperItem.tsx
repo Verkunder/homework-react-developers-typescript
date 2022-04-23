@@ -3,9 +3,10 @@ import {IDevelopers} from "../types/types";
 
 interface DeveloperItemProps {
     item: IDevelopers
+    deliteItem: (id: number) => void
 }
 
-const DeveloperItem: FC<DeveloperItemProps> = ({item}) => {
+const DeveloperItem: FC<DeveloperItemProps> = ({item, deliteItem}) => {
 
     return (
         <tr>
@@ -13,7 +14,9 @@ const DeveloperItem: FC<DeveloperItemProps> = ({item}) => {
             <td>{item.name}</td>
             <td>{item.skill}</td>
             <td>{item.department}</td>
-            <td><button className="btn btn-danger">Удалить</button></td>
+            <td>
+                <button className="btn btn-danger" onClick={() => deliteItem(item.id)}>Удалить</button>
+            </td>
         </tr>
     );
 };

@@ -4,10 +4,14 @@ import DeveloperItem from "./DeveloperItem";
 
 interface DeveloperTableProps {
     developers: IDevelopers[]
-    deliItem: (id: number) => void
 }
 
-const DeveloperTable: FC<DeveloperTableProps> = ({developers, deliItem}) => {
+const DeveloperTable: FC<DeveloperTableProps> = ({developers}) => {
+
+    const deliteItem = (id: number) => {
+        developers.splice(id, 1)
+        console.log(developers)
+    }
 
     return (
         <div className="align-items-center">
@@ -23,7 +27,7 @@ const DeveloperTable: FC<DeveloperTableProps> = ({developers, deliItem}) => {
                 </thead>
                 <tbody>
             {developers.map((item) =>
-                <DeveloperItem key={item.id} item={item} />
+                <DeveloperItem key={item.id} item={item} deliteItem={deliteItem} />
             )}
             </tbody>
             </table>
