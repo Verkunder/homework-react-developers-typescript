@@ -1,12 +1,17 @@
 import React, {FC, useRef, useState} from 'react';
 import {IDevelopers} from "../types/types";
-
-interface AddDevelopersProps {
-    developers: IDevelopers[]
-    addDevelopers: (name: string, skill: string, department: string) => void
+export type TDeveloper = {
+    name: string
+    skill: string
+    department: string
+    id: number
 }
 
-const AddDevelopers: FC<AddDevelopersProps> = ({developers, addDevelopers}) => {
+interface AddDevelopersProps {
+    addDevelopers: (name: TDeveloper) => void
+}
+
+const AddDevelopers: FC<AddDevelopersProps> = ({ addDevelopers}) => {
     const nameRef = useRef<HTMLInputElement>(null);
     const [skill, setSkill] = useState<string>('')
     const [department, setDepartment] = useState<string>('')
@@ -19,8 +24,8 @@ const AddDevelopers: FC<AddDevelopersProps> = ({developers, addDevelopers}) => {
     }
 
     const clickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-        if (nameRef.current!.value, skill, department != '') {
-            addDevelopers(nameRef.current!.value, skill, department)
+        if (nameRef?.current?.value && skill && Boolean(department)) {
+            addDevelopers({id: 1, name: (nameRef.current.value as string), skill, department})
             setDepartment('');
             setSkill('')
             nameRef.current!.value = ''

@@ -11,7 +11,7 @@ const DeveloperItem: FC<DeveloperItemProps> = ({item, deliteItem, id}) => {
 
     return (
         <tr>
-            <th scope="row"> {id + 1} </th>
+            <th scope="row"> {id} </th>
             <td>{item.name}</td>
             <td>{item.skill}</td>
             <td>{item.department}</td>

@@ -1,26 +1,28 @@
 import React, {FC, useState} from 'react';
 import {IDevelopers} from "../types/types";
 import DeveloperItem from "./DeveloperItem";
-import AddDevelopers from "./AddDevelopers";
+import AddDevelopers, {TDeveloper} from "./AddDevelopers";
 
 interface DeveloperTableProps {
     developers: IDevelopers[]
 }
 
 const DeveloperTable: FC<DeveloperTableProps> = ({developers}) => {
-    const [newDevelopers, setDevelopers] = useState<IDevelopers[]>([])
+    const [newDevelopers, setDevelopers] = useState<IDevelopers[]>(developers)
 
-    const addDevelopers = (name: string, skill: string, department: string) => {
-        const newDevelopers = developers.push({name: name, skill: skill, department: department})
-        setDevelopers(developers)
+    const addDevelopers = (obj: TDeveloper) => {
+        const idx = newDevelopers.length
+        const result = [...newDevelopers, obj]
+        obj.id = idx + 1
+        setDevelopers(result)
     }
     const deliteItem = (id: number) => {
-        const newDevelopers = developers.splice(id, 1)
-        setDevelopers(newDevelopers)
+        const filtered = newDevelopers.filter(({id: idx}) => id !== idx)
+        setDevelopers(filtered)
     }
 
     const tableViev = () => {
-        if (!developers.length) {
+        if (!newDevelopers.length) {
             return (
                 <div className="row justify-content-md-center mb-5">
                     <div className="col-md-auto">
@@ -28,31 +30,31 @@ const DeveloperTable: FC<DeveloperTableProps> = ({developers}) => {
                     </div>
                 </div>
             )
-        } else {
-            return (
-                <table className="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">ФИО</th>
-                        <th scope="col">Уровень навыков</th>
-                        <th scope="col">Направление</th>
-                        <th scope="col"> </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {developers.map((item, id) =>
-                        <DeveloperItem key={id} item={item} deliteItem={deliteItem} id={id} />
-                    )}
-                    </tbody>
-                </table>
-            )
         }
+        return (
+            <table className="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ФИО</th>
+                    <th scope="col">Уровень навыков</th>
+                    <th scope="col">Направление</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {newDevelopers.map((item) =>
+                    <DeveloperItem key={item.id} item={item} deliteItem={deliteItem} id={item.id}/>
+                )}
+                </tbody>
+            </table>
+        )
     }
+
 
     return (
         <div className="align-items-center mt-5">
-            <AddDevelopers developers={developers} addDevelopers={addDevelopers} />
+            <AddDevelopers addDevelopers={addDevelopers}/>
             {tableViev()}
         </div>
     );
