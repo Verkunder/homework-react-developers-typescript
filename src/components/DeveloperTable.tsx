@@ -9,6 +9,8 @@ interface DeveloperTableProps {
 
 const DeveloperTable: FC<DeveloperTableProps> = ({developers}) => {
     const [newDevelopers, setDevelopers] = useState<IDevelopers[]>(developers)
+    const [active, setActive] = useState<boolean>(false)
+    const [remove, setRemove] = useState<boolean>(false)
 
     const addDevelopers = (obj: TDeveloper) => {
         const idx = newDevelopers.length + 1
@@ -19,19 +21,55 @@ const DeveloperTable: FC<DeveloperTableProps> = ({developers}) => {
         const filtered = newDevelopers.filter(({id: idx}) => id !== idx)
         setDevelopers(filtered)
     }
-
-    const filterDevelopers = () => {
-        const otfiltered = newDevelopers.sort((a, b) => {
-            if (a.name > b.name) {
+    const removeButtonAction = () => {
+        const remove = newDevelopers.sort((a, b) => {
+            if (a.id > b.id) {
                 return 1
             }
-            if (b.name > a.name) {
+            if (a.id < b.id) {
                 return -1
             }
             return 0
         })
+        setDevelopers(remove)
+        setRemove(false)
+    }
+
+    const filterTable = (key: keyof IDevelopers) => {
+        console.log(key)
+        const otfiltered = newDevelopers.sort((a, b) => {
+            if (active) {
+            if (a[key] > b[key]) {
+                return 1
+            }
+            if (b[key] > a[key]) {
+                return -1
+            }
+            } else {
+                if (a[key] > b[key]) {
+                    return -1
+                }
+                if (b[key] > a[key]) {
+                    return 1
+                }
+            }
+            return 0
+        })
         const newFiltered = [...otfiltered]
+        setActive(!active)
         setDevelopers(newFiltered)
+
+        if (otfiltered.length !== 0) {
+            setRemove(true)
+        }
+
+    }
+
+    const removeButton = () => {
+        if (remove) {
+            return <button className="btn-sm btn-danger" onClick={removeButtonAction}>Сбросить</button>
+        }
+        return false
     }
 
     const tableViev = () => {
@@ -43,16 +81,17 @@ const DeveloperTable: FC<DeveloperTableProps> = ({developers}) => {
                     </div>
                 </div>
             )
+            setRemove(false)
         }
         return (
             <table className="table">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col" onClick={filterDevelopers}>ФИО</th>
-                    <th scope="col">Уровень навыков</th>
-                    <th scope="col">Направление</th>
-                    <th scope="col"></th>
+                    <th scope="col" onClick={() => filterTable('name')}>ФИО</th>
+                    <th scope="col" onClick={() => filterTable('skill')}>Уровень навыков</th>
+                    <th scope="col" onClick={() => filterTable('department')}>Направление</th>
+                    <th scope="col">{removeButton()}</th>
                 </tr>
                 </thead>
                 <tbody>
