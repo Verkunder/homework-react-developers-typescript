@@ -11,14 +11,27 @@ const DeveloperTable: FC<DeveloperTableProps> = ({developers}) => {
     const [newDevelopers, setDevelopers] = useState<IDevelopers[]>(developers)
 
     const addDevelopers = (obj: TDeveloper) => {
-        const idx = newDevelopers.length
-        const result = [...newDevelopers, obj]
-        obj.id = idx + 1
+        const idx = newDevelopers.length + 1
+        const result = [...newDevelopers, {...obj, id: idx}]
         setDevelopers(result)
     }
     const deliteItem = (id: number) => {
         const filtered = newDevelopers.filter(({id: idx}) => id !== idx)
         setDevelopers(filtered)
+    }
+
+    const filterDevelopers = () => {
+        const otfiltered = newDevelopers.sort((a, b) => {
+            if (a.name > b.name) {
+                return 1
+            }
+            if (b.name > a.name) {
+                return -1
+            }
+            return 0
+        })
+        const newFiltered = [...otfiltered]
+        setDevelopers(newFiltered)
     }
 
     const tableViev = () => {
@@ -36,7 +49,7 @@ const DeveloperTable: FC<DeveloperTableProps> = ({developers}) => {
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">ФИО</th>
+                    <th scope="col" onClick={filterDevelopers}>ФИО</th>
                     <th scope="col">Уровень навыков</th>
                     <th scope="col">Направление</th>
                     <th scope="col"></th>
